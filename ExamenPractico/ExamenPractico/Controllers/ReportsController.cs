@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Data;
 
@@ -16,13 +17,18 @@ namespace ExamenPractico.Controllers
     [EnableCors("OrigenesExternos")]
     public class ReportsController : ControllerBase
     {
-      
+        public string dbConString;
+
+        public ReportsController(IConfiguration configuration)
+        {
+            dbConString = configuration.GetConnectionString("dbContext").ToString();
+        }
+
         [HttpGet]
         public ActionResult<object> ObtieneCamposPorFechas([FromHeader] string sFechaIni, [FromHeader] string sFechaFin)
         {
-
-            string connString = @"Server =azureausa.database.windows.net; Database = Pruebon; User Id=candidato;Password=3ch@l3Gan1t4zs;MultipleActiveResultSets=True";
-           
+            //string connString = @"Server =azureausa.database.windows.net; Database = Pruebon; User Id=candidato;Password=3ch@l3Gan1t4zs;MultipleActiveResultSets=True";
+            string connString = dbConString;
             //variables to store the query results
             List<string> nrreporte = new List<string>();
             List<string> svindice = new List<string>();
